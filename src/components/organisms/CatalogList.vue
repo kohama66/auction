@@ -25,7 +25,7 @@ export default defineComponent({
     });
 
     onBeforeMount(async () => {
-      const response = await repositories.getAuctionsIdProducts(1);
+      const response = await repositories.getAuctionsIdProducts(1); //仮
       state.items = response.data;
     });
 
