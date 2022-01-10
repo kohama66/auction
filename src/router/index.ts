@@ -6,6 +6,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "Catalog",
     component: () => import("../views/Catalog.vue"),
   },
+  {
+    path: "/auction/:id",
+    name: "Auction",
+    component: () => import("../views/Auction.vue"),
+  },
 ];
 
 const router = createRouter({
