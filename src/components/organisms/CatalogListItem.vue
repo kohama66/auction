@@ -1,16 +1,10 @@
 <template>
   <div class="catalog-list-item">
     <figure class="image"></figure>
-    <h2 class="title">商品名</h2>
-    <p class="price">最低落札金額 : 3000</p>
+    <h2 class="title">{{ state.item.name }}</h2>
+    <p class="price">最低落札金額 : {{ state.item.min_price }}</p>
     <p class="description">
-      商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品
-      説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明
-      商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品
-      説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説
-      明商品説明商品説明商品説明商品説明商品説明商品説明
-      商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品
-      説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明商品説明
+      {{ state.item.description }}
     </p>
     <div class="seller">
       <p>出品者 : 山田 太郎</p>
@@ -19,10 +13,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { Product } from "@/openapi";
+import { defineComponent, PropType, reactive } from "@vue/runtime-core";
+
+type State = {
+  item: Product;
+};
 
 export default defineComponent({
+  props: {
+    item: {
+      type: Object as PropType<Product>,
+      required: true,
+    },
+  },
   name: "CatalogListItem",
+  setup(props) {
+    const state = reactive<State>({
+      item: props.item,
+    });
+
+    return {
+      state,
+    };
+  },
 });
 </script>
 
@@ -49,6 +63,7 @@ export default defineComponent({
     margin-top: 15px;
     font-size: 14px;
     line-height: 1.4em;
+    min-height: 150px;
   }
   .seller {
     padding: 10px 0 0;
