@@ -1,21 +1,37 @@
 <template>
   <div class="list">
-    <CatalogListItem />
-    <CatalogListItem />
-    <CatalogListItem />
-    <CatalogListItem />
-    <CatalogListItem />
+    <CatalogListItem v-for="(item, i) in state.items" :key="i" :item="item" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { Product } from "@/openapi";
+import repositories from "@/repositories";
+import { defineComponent, onBeforeMount, reactive } from "@vue/runtime-core";
 import CatalogListItem from "./CatalogListItem.vue";
+
+type State = {
+  items: Product[];
+};
 
 export default defineComponent({
   name: "CatalogList",
   components: {
     CatalogListItem,
+  },
+  setup() {
+    const state = reactive<State>({
+      items: [],
+    });
+
+    onBeforeMount(async () => {
+      const response = await repositories.getAuctionsIdProducts(1);
+      state.items = response.data;
+    });
+
+    return {
+      state,
+    };
   },
 });
 </script>
