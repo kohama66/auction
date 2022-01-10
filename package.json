@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "generate": "openapi-generator generate -g typescript-axios -i ../auction-api/openapi/swagger.yaml -o ./openapi --api-package=api --model-package=model --additional-properties=withSeparateModelsAndApi=true"
+    "generate": "openapi-generator generate -g typescript-axios -i ../auction-api/openapi/swagger.yaml -o ./src/openapi --api-package=api --model-package=model --additional-properties=withSeparateModelsAndApi=true"
   },
   "dependencies": {
     "axios": "^0.24.0",
