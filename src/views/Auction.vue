@@ -1,6 +1,9 @@
 <template>
   <div class="auction">
-    <AuctionItemView />
+    <AuctionItemView
+      :name="state.product?.name || ''"
+      :price="state.product?.min_price || 0"
+    />
     <AuctionForm />
   </div>
 </template>
@@ -14,7 +17,7 @@ import { defineComponent, onBeforeMount, reactive } from "vue";
 import { useRoute } from "vue-router";
 
 type State = {
-  products: Product[];
+  product?: Product;
 };
 export default defineComponent({
   name: "Auction",
@@ -25,14 +28,14 @@ export default defineComponent({
 
   setup() {
     const state = reactive<State>({
-      products: [],
+      product: undefined,
     });
     const route = useRoute();
 
     onBeforeMount(async () => {
       const id = Number(route.params.id);
       const response = await repositories.getAuctionsIdProducts(id);
-      state.products = response.data;
+      state.product = response.data[0];
     });
 
     return {

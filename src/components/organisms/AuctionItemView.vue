@@ -1,7 +1,10 @@
 <template>
   <div class="auction-item-view">
+    <div class="name">
+      <BaseText :text="props.name" />
+    </div>
     <div class="price">
-      <BaseText text="10000円" :size="50" />
+      <BaseText :text="props.price + '円'" :size="50" />
     </div>
     <div class="image">
       <figure></figure>
@@ -17,14 +20,33 @@ export default defineComponent({
   components: {
     BaseText,
   },
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+  },
+
+  setup(props) {
+    return {
+      props,
+    };
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .auction-item-view {
+  .name {
+    text-align: center;
+  }
   .price {
     text-align: center;
-    padding: 20px;
+    padding: 10px;
   }
   .image {
     figure {

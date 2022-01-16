@@ -1,15 +1,12 @@
 <template>
   <p class="base-text">
-    {{ state.text }}
+    {{ props.text }}
   </p>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent } from "vue";
 
-type State = {
-  text: string;
-};
 export default defineComponent({
   name: "BaseText",
   props: {
@@ -24,13 +21,10 @@ export default defineComponent({
   },
 
   setup(props) {
-    const state = reactive<State>({
-      text: props.text,
-    });
     const fontSize = `${props.size}px`;
 
     return {
-      state,
+      props,
       fontSize,
     };
   },
