@@ -1,7 +1,7 @@
 <template>
   <div class="auction-form">
     <form>
-      <input type="text" />
+      <input type="number" />
       <BaseButton label="入札する" />
     </form>
   </div>
