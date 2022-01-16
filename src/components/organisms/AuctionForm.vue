@@ -1,19 +1,35 @@
 <template>
   <div class="auction-form">
-    <form>
-      <input type="number" />
+    <form @submit.prevent="submit">
+      <input type="number" v-model="state.price" />
       <BaseButton label="入札する" />
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 import BaseButton from "../atoms/BaseButton.vue";
 export default defineComponent({
   name: "AuctionForm",
   components: {
     BaseButton,
+  },
+  emits: ["onSubmit"],
+
+  setup(_, context) {
+    const state = reactive({
+      price: 0,
+    });
+    const submit = () => {
+      context.emit("onSubmit", state.price);
+      state.price = 0;
+    };
+
+    return {
+      state,
+      submit,
+    };
   },
 });
 </script>

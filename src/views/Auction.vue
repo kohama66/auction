@@ -2,9 +2,9 @@
   <div class="auction">
     <AuctionItemView
       :name="state.product?.name || ''"
-      :price="state.product?.min_price || 0"
+      :price="state.currentBidAmount"
     />
-    <AuctionForm />
+    <AuctionForm @onSubmit="onBid" />
   </div>
 </template>
 
@@ -18,6 +18,7 @@ import { useRoute } from "vue-router";
 
 type State = {
   product?: Product;
+  currentBidAmount: number;
 };
 export default defineComponent({
   name: "Auction",
@@ -27,19 +28,29 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
+
     const state = reactive<State>({
       product: undefined,
+      currentBidAmount: 0,
     });
-    const route = useRoute();
 
     onBeforeMount(async () => {
       const id = Number(route.params.id);
       const response = await repositories.getAuctionsIdProducts(id);
       state.product = response.data[0];
+      state.currentBidAmount = response.data[0].min_price;
     });
+
+    const onBid = (bidAmount: number) => {
+      if (bidAmount > state.currentBidAmount) {
+        state.currentBidAmount = bidAmount;
+      }
+    };
 
     return {
       state,
+      onBid,
     };
   },
 });
@@ -48,7 +59,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .auction {
   min-height: 100vh;
-  padding-top: 50px;
+  padding-top: 30px;
   .auction-form {
     position: absolute;
     bottom: 0;
